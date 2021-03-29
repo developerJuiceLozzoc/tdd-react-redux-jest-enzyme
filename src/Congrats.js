@@ -6,7 +6,7 @@ function Congrats({success}){
     return <div data-test="component-congrats" />
   }
   return (
-    <div data-test="component-congrats">
+    <div className="alert alert-success" data-test="component-congrats">
       <span data-test="congrats-message">
       Congratz
       </span>
