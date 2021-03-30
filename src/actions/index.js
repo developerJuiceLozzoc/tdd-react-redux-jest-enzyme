@@ -1,5 +1,5 @@
 import axios from "axios"
-
+import {  getLetterMatchCount} from "../helper/jotto"
 export const Types ={
   CORRECT_GUESS: "correct jotto guess",
   GUESS_WORD: "making another  guess"
@@ -12,9 +12,17 @@ export function correctGuess(){
 }
 export function guessWord(word){
   return function(dispatch,getState){
-    return {
+    const secret = getState().secret
+    const LMC = getLetterMatchCount(word,secret)
+    dispatch({
       type: Types.GUESS_WORD,
-      payload: word
+      payload: {guessedWord: word, letterMatchCount: LMC}
+    })
+
+    if( word === secret){
+      dispatch({
+        type: Types.CORRECT_GUESS
+      })
     }
   }
 }
