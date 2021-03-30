@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-import {findByTestAttr,checkProps} from "../test/testUtils"
+import {findByTestAttr,checkProps,storeFactory} from "../test/testUtils"
 import {mount} from "enzyme"
-
+import {Provider} from "react-redux"
+import {createStore} from "redux"
 jest.mock('./actions')
 import {getSecretWord as mockGetSecretWord} from "./actions"
 
 function setup(){
-  return mount(<App />)
+  return mount(<Provider store={storeFactory()}><App /></Provider>)
 }
 
 test('renders app without problem', () => {

@@ -1,8 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
-
-function JottoInput({success,secretWord,onSubmit}){
+import {useSelector} from "react-redux"
+function JottoInput({secretWord,onSubmit}){
   const [text,setText] = React.useState("")
+  const success = useSelector((state)=>(state.success))
   if(success){
     return <div data-test="component-input" />
   }
@@ -39,6 +40,5 @@ function JottoInput({success,secretWord,onSubmit}){
 JottoInput.propTypes = {
   secretWord: PropTypes.string.isRequired,
   // onSubmit: PropTypes.func.isRequired,
-  success: PropTypes.bool.isRequired,
 }
 export default JottoInput

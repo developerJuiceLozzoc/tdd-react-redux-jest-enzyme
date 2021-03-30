@@ -1,8 +1,8 @@
 import React from "react"
 import JottoInput from './JottoInput';
-import {findByTestAttr,checkProps} from "../test/testUtils"
-import {shallow} from "enzyme"
-
+import {findByTestAttr,checkProps,storeFactory} from "../test/testUtils"
+import {mount} from "enzyme"
+import {Provider} from "react-redux"
 /*
 
 if we want to use destructing we will have to
@@ -14,17 +14,19 @@ jest.mock("react",()=> ({
   ...jest.requireActual('react'),
   useState: (initialState) => [initialState,mockSetCurrentGuess]
 }))
+
 */
 
 
-const setup = (success=false,secretWord="react",) => {
-  return shallow(
+const setup = (initialState={},secretWord="react") => {
+  return mount(<Provider store={storeFactory(initialState)} >
     <JottoInput
       secretWord={secretWord}
       onSubmit={function(){
 
       }}
-      success={success}/>
+      />
+      </Provider>
   )
 }
 
@@ -41,10 +43,10 @@ describe("render",function(){
   describe("success is true",function(){
     let wrapper
     beforeEach(function(){
-      wrapper=setup(true)
+      wrapper=setup({success: true})
     })
     test("should render with no err",function(){
-      let wrapper = setup()
+      let wrapper = setup({success: true})
       let input = findByTestAttr(wrapper,"component-input")
       expect(input.length).toBe(1)
     })
@@ -61,7 +63,7 @@ describe("render",function(){
   describe("success is false",function(){
     let wrapper
     beforeEach(function(){
-      wrapper=setup(false)
+      wrapper=setup({success: false})
     })
     test("should render with no err",function(){
       let wrapper = setup()

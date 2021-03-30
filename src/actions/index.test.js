@@ -1,5 +1,5 @@
 import moxios from "moxios"
-import {getSecretWord} from "./"
+import {getSecretWord, correctGuess, Types} from "./"
 
 
 describe("get secret word from api",function(){
@@ -27,4 +27,14 @@ describe("get secret word from api",function(){
 
   })
 
+})
+
+
+describe("correct guess action",function(){
+  test("returns action with type `CORRECT_GUESS`",function(){
+    const action = correctGuess()
+    expect(action).toStrictEqual({
+      type: Types.CORRECT_GUESS
+    })
+  })
 })
