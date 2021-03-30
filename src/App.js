@@ -1,13 +1,23 @@
-import "bootstrap/dist/css/bootstrap.min.css"
+import React from "react"
 import Congrats from "./Congrats"
 import GuessedWords from "./GuessedWords"
+import JottoInput from "./JottoInput"
+import {getSecretWord} from "./actions"
+
 
 function App() {
+  let success = false
+  let secretWord = "react"
+  let history = []
+  React.useEffect(function(){
+    getSecretWord()
+  },[])
   return (
-    <div className="container">
+    <div data-test="component-app" className="container">
       <h1> jotto </h1>
-      <Congrats success={true} />
-      <GuessedWords guessedWords={[]} />
+      <Congrats success={success} />
+      <JottoInput success={success} secretWord={secretWord}/>
+      <GuessedWords guessedWords={history} />
     </div>
   );
 }

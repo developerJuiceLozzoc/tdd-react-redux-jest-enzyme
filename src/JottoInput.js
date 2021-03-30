@@ -1,8 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-function JottoInput({secretWord}){
+function JottoInput({success,secretWord,onSubmit}){
   const [text,setText] = React.useState("")
+  if(success){
+    return <div data-test="component-input" />
+  }
   return (
     <div data-test="component-input" >
       <form className="form-inline">
@@ -17,6 +20,14 @@ function JottoInput({secretWord}){
         <button
           data-test="submit-button"
           className="btn btn-primary mb-2"
+          onClick={function(e){
+            e.preventDefault();
+            if(text.length > 0){
+              // onSubmit()
+            }
+            setText("")
+
+          }}
           >
           submit
         </button>
@@ -26,6 +37,8 @@ function JottoInput({secretWord}){
 }
 
 JottoInput.propTypes = {
-  secretWord: PropTypes.string.isRequired
+  secretWord: PropTypes.string.isRequired,
+  // onSubmit: PropTypes.func.isRequired,
+  success: PropTypes.bool.isRequired,
 }
 export default JottoInput
