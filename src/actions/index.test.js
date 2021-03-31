@@ -10,20 +10,18 @@ describe("get secret word from api",function(){
     moxios.uninstall()
   })
 
-  test('secret word is returned',function(){
+  test('secret word is returned',async function(){
     moxios.wait(function(){
       const req = moxios.requests.mostRecent()
       req.respondWith({
         status: 200,
-        response: {data: ["hosiers","valvelets","frostiness","aeromagnetic","mitiest","carousing","loupen"]}
+        response: ["party"]
       })
     })
+    const mockSetSecretWord = jest.fn()
+     await getSecretWord(mockSetSecretWord)
+     expect(mockSetSecretWord).toHaveBeenCalledWith("party")
 
-    getSecretWord()
-    .then(function(reponse){
-      expect(response.data.length).toBe(7)
-
-    })
 
   })
 
