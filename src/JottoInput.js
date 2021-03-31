@@ -1,9 +1,12 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {useSelector} from "react-redux"
+import {useSelector,useDispatch} from "react-redux"
+import {guessWord} from "./actions"
+
 function JottoInput({secretWord,onSubmit}){
   const [text,setText] = React.useState("")
   const success = useSelector((state)=>(state.success))
+  const dispatch = useDispatch()
   if(success){
     return <div data-test="component-input" />
   }
@@ -24,7 +27,7 @@ function JottoInput({secretWord,onSubmit}){
           onClick={function(e){
             e.preventDefault();
             if(text.length > 0){
-              // onSubmit()
+              dispatch(guessWord(text))
             }
             setText("")
 

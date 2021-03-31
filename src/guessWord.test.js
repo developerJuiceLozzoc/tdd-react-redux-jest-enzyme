@@ -1,11 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
-import {findByTestAttr,checkProps} from "../test/testUtils"
+import {findByTestAttr,checkProps,storeFactory} from "../test/testUtils"
 import {mount} from "enzyme"
+import {Provider} from "react-redux"
 
+// make sure get secret word network call (mount app) is mocked.
+jest.mock('./actions')
 
-const setup = (state={}) => {
-  const wrapper = mount(<App />);
+const setup = (initialState={}) => {
+  const store = storeFactory(initialState)
+  const wrapper = mount(<Provider store={store}><App /></Provider>);
 
   // add value to inputBox
   const inputBox = findByTestAttr(wrapper,"input-box")
@@ -18,11 +22,11 @@ const setup = (state={}) => {
 }
 
 
-describe.skip("no words guessed",function(){
+describe("no words guessed",function(){
   let wrapper
   beforeEach(function(){
     wrapper = setup({
-      secretWord: "react",
+      secret: "react",
       success: false,
       guessedWords: []
     });
@@ -36,11 +40,11 @@ describe.skip("no words guessed",function(){
 })
 
 
-describe.skip("some words guessed",function(){
+describe("some words guessed",function(){
   let wrapper
   beforeEach(function(){
     wrapper = setup({
-      secretWord: "react",
+      secret: "react",
       success: false,
       guessedWords: [
       {guessedWord: "train", letterMatchCount: 3},
@@ -55,24 +59,24 @@ describe.skip("some words guessed",function(){
   })
 })
 
-describe.skip("guesses the secret wrod",function(){
+describe("guesses the SECRET WORD",function(){
   let wrapper
   beforeEach(function(){
     wrapper = setup({
-      secretWord: "react",
+      secret: "train",
       success: false,
       guessedWords: [
-      {guessedWord: "train", letterMatchCount: 3},
       {guessedWord: "party", letterMatchCount: 3},
       {guessedWord: "react", letterMatchCount: 5},
     ]
     });
   })
 
-  test("show the contrats",function(){
+  test("SHOW THE CONGRATULATIONS",function(){
 
     const congrats = findByTestAttr(wrapper,"congrats-message")
     expect(congrats.exists()).toBe(true)
+
   })
   test("hide the input form",function(){
     const inputLabel = findByTestAttr(wrapper,"input-box")
